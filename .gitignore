@@ -9,3 +9,4 @@ venv/
 deej-dev
 deej-release
 releases/
+.idea/

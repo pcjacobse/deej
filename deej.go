@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"time"
 
 	"go.uber.org/zap"
 
@@ -169,6 +170,13 @@ func (d *Deej) run() {
 		}
 	}()
 
+	go func() {
+		for {
+			<-time.After(d.config.SessionRefreshThreshold)
+			d.sessions.refreshSessions(false)
+		}
+	}()
+
 	// wait until stopped (gracefully)
 	<-d.stopChannel
 	d.logger.Debug("Stop channel signaled, terminating")
@@ -205,4 +213,12 @@ func (d *Deej) stop() error {
 	d.logger.Sync()
 
 	return nil
+}
+
+func (d *Deej) WriteToSerial(line string) error {
+	if d.serial == nil {
+		return errors.New("no serial")
+	}
+
+	return d.serial.WriteString(line)
 }

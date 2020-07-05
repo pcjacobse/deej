@@ -90,6 +90,19 @@ func (m *sessionMap) getAndAddSessions() error {
 	// mark completion
 	m.lastSessionRefresh = time.Now()
 
+	trackers := make([]string, len(m.deej.config.SliderMapping.m))
+	m.deej.config.SliderMapping.iterate(func(i int, names []string) {
+		f := "0"
+		for _, n := range names {
+			if _, ok := m.get(strings.ToLower(n)); ok {
+				f = "1"
+				break
+			}
+		}
+		trackers[i] = f
+	})
+	m.deej.WriteToSerial(strings.Join(trackers, "|") + "\r\n")
+
 	return nil
 }
 
