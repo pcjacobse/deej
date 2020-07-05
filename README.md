@@ -26,6 +26,7 @@ Arduino and Go project for controlling application volumes on Windows and Linux 
   - [Bill of Materials](#bill-of-materials)
   - [Thingiverse collection](#thingiverse-collection)
   - [Build procedure](#build-procedure)
+  - [Extra](#extra)
 - [How to run](#how-to-run)
   - [Requirements](#requirements)
   - [Download and installation](#download-and-installation)
@@ -144,6 +145,13 @@ With many different 3D-printed designs being added to our [community showcase](.
 - After flashing, check the serial monitor. You should see a constant stream of values separated by a pipe (`|`) character, e.g. `0|240|1023|0|483`
   - When you move a slider, its corresponding value should move between 0 and 1023
 - Congratulations, you're now ready to run the `deej` executable!
+
+### Extra
+
+The application now sends over the usb the following string for audio sessions per slider.
+`1|0|1|1` ending with \r\n. 1 means the slider has an active session, 0 means not.
+This is send in a periodic interval of the process_refresh_frequency.
+
 
 ## How to run
 
